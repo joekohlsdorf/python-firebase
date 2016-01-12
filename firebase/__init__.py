@@ -3,14 +3,16 @@ import urlparse  # for urlparse and urljoin
 import os  # for os.path.dirname
 import json  # for dumps
 
+DEFAULT_TIMEOUT = 2  # timeout in seconds
 
 
 class Firebase(object):
     ROOT_URL = ''  # no trailing slash
     REQUEST_ARGS = {}
 
-    def __init__(self, root_url, auth_token=None):
+    def __init__(self, root_url, auth_token=None, request_args={}):
         self.ROOT_URL = root_url.rstrip('/')
+        self.REQUEST_ARGS = request_args
         self.auth_token = auth_token
 
     def __str__(self):
@@ -69,6 +71,8 @@ class Firebase(object):
         return self.__request('delete')
 
     def __request(self, method, **kwargs):
+        kwargs.setdefault('timeout', DEFAULT_TIMEOUT)
+        kwargs.update(self.REQUEST_ARGS)
 
         # Firebase API does not accept form-encoded PUT/POST
         # data. It needs to be JSON encoded.
