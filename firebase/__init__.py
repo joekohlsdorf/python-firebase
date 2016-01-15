@@ -3,7 +3,7 @@ import urlparse  # for urlparse and urljoin
 import os  # for os.path.dirname
 import json  # for dumps
 
-DEFAULT_TIMEOUT = 2  # timeout in seconds
+DEFAULT_TIMEOUT = 5  # timeout in seconds
 
 
 class Firebase(object):
