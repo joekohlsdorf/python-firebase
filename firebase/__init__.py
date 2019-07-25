@@ -1,7 +1,7 @@
 import requests
-import urlparse  # for urlparse and urljoin
 import os  # for os.path.dirname
 import json  # for dumps
+from six.moves.urllib.parse import urljoin, urlparse
 
 DEFAULT_TIMEOUT = 5  # timeout in seconds
 
@@ -22,13 +22,13 @@ class Firebase(object):
 
     def child(self, path):
         root_url = '%s/' % self.ROOT_URL
-        url = urlparse.urljoin(root_url, path.lstrip('/'))
+        url = urljoin(root_url, path.lstrip('/'))
         return Firebase(url)
 
     def parent(self):
         url = os.path.dirname(self.ROOT_URL)
         # if url is the root of your Firebase, return None
-        up = urlparse.urlparse(url)
+        up = urlparse(url)
         if up.path == '':
             return None  # maybe throw exception here?
         return Firebase(url)
